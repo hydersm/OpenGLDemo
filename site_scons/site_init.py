@@ -70,6 +70,8 @@ class FlavorBuilder(object):
         """Build flavor using two-pass strategy."""
         # First pass over all modules - process and collect library targets
         for module in modules():
+            # get only the module name (not the path)
+            moduleName = os.path.basename(os.path.normpath(module))
             # Verify the SConscript file exists
             sconscript_path = os.path.join(module, 'SConscript')
             if not os.path.isfile(sconscript_path):
@@ -85,24 +87,26 @@ class FlavorBuilder(object):
             SCons.Script._SConscript.GlobalDict.update(shortcuts)  # pylint: disable=protected-access
             self._env.SConscript(
                 sconscript_path,
-                variant_dir=os.path.join('$BUILDROOT', module))
+                variant_dir=os.path.join('$BUILDROOT', moduleName))
         # Second pass over all modules - process program targets
         shortcuts = dict()
         for nop_shortcut in ('Lib', 'StaticLib', 'SharedLib'):
             shortcuts[nop_shortcut] = nop
         for module in modules():
+            moduleName = os.path.basename(os.path.normpath(module))
             sprint('|- Second pass: Reading module %s ...', module)
             shortcuts['Prog'] = self._prog_wrapper(module)
             SCons.Script._SConscript.GlobalDict.update(shortcuts)  # pylint: disable=protected-access
             self._env.SConscript(
                 os.path.join(module, 'SConscript'),
-                variant_dir=os.path.join('$BUILDROOT', module))
+                variant_dir=os.path.join('$BUILDROOT', moduleName))
         # Add install targets for programs from all modules
         for module, prog_nodes in self._progs.iteritems():
+            moduleName = os.path.basename(os.path.normpath(module))
             for prog in prog_nodes:
                 assert isinstance(prog, Node.FS.File)
                 # If module is hierarchical, replace pathseps with periods
-                bin_name = path_to_key('%s.%s' % (module, prog.name))
+                bin_name = path_to_key('%s.%s' % (moduleName, prog.name))
                 self._env.InstallAs(os.path.join('$BINDIR', bin_name), prog)
 
     def _lib_wrapper(self, bldr_func, module):

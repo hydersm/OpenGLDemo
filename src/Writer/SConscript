@@ -3,4 +3,4 @@
 
 """AddressBook Writer SConscript script"""
 
-Prog('writer', 'writer.cc', with_libs='AddressBook::addressbook')
+Prog('writer', 'writer.cc', with_libs='src.AddressBook::addressbook')
