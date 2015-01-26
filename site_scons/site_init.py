@@ -27,6 +27,7 @@ def get_base_env(*args, **kwargs):
         env.Replace(**ENV_OVERRIDES['_common'])
     if '_common' in ENV_EXTENSIONS:
         env.Append(**ENV_EXTENSIONS['_common'])
+
     return env
 
 class FlavorBuilder(object):

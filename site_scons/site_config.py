@@ -45,7 +45,7 @@ ENV_OVERRIDES = {
     '_common': dict(
         # Use clang compiler by default
         CC          = 'clang',
-        CXX         = 'clang++',
+        CXX         = 'g++',
         # Path for installed binary programs
         BINDIR      = os.path.join('$BUILDROOT', _BIN_SUBDIR),
     ),
@@ -63,9 +63,11 @@ ENV_OVERRIDES = {
 ENV_EXTENSIONS = {
     '_common': dict(
         # Common flags for all C++ builds
-        CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],
+        CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],#
         # Modules should be able to include relative to build root dir
-        CPPPATH = ['#$BUILDROOT'],
+        CPPPATH = ['#$BUILDROOT', '#/libs/sfml/include'],
+        LIBS = ['sfml-window', 'sfml-system'],
+        LIBPATH = ['#/libs/sfml/lib'],
     ),
     'debug': dict(
         # Extra flags for debug C++ builds

@@ -1,0 +1,5 @@
+# pylint: disable=undefined-variable
+
+"""AddressBook Writer SConscript script"""
+
+Prog('game', 'game.cpp')
