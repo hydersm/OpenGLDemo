@@ -12,8 +12,13 @@ else:
 	filePath = 'build/' + flavor + '/bin/' + fileName
 	absFilePath = os.path.abspath(filePath)
 
-	print 'linking libsfml-window'
-	p = subprocess.Popen(['install_name_tool', '-add_rpath', '@executable_path/../../../libs/lib', filePath])
+	p = subprocess.Popen(['install_name_tool', '-change', '@rpath/libsfml-window.2.2.0.dylib', '@executable_path/../../../libs/lib/libsfml-window.2.2.0.dylib', filePath])
+	p.wait()
+
+	p = subprocess.Popen(['install_name_tool', '-change', '@rpath/libsfml-system.2.2.0.dylib', '@executable_path/../../../libs/lib/libsfml-system.2.2.0.dylib', filePath])
+	p.wait()
+
+	p = subprocess.Popen(['install_name_tool', '-change', '/usr/lib/libGLEW.1.11.0.dylib', '@executable_path/../../../libs/lib/libGLEW.1.11.0.dylib', filePath])
 	p.wait()
 
 	print 'running program: ' + fileName

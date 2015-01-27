@@ -63,11 +63,10 @@ ENV_OVERRIDES = {
 ENV_EXTENSIONS = {
     '_common': dict(
         # Common flags for all C++ builds
-        CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],#
+        CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],
+        LINKFLAGS = ['-framework', 'OpenGL'],
         # Modules should be able to include relative to build root dir
         CPPPATH = ['#$BUILDROOT', '#/libs/include'],
-        LIBS = ['sfml-window', 'sfml-system', 'GLEW'],
-        LIBPATH = ['#/libs/lib'],
     ),
     'debug': dict(
         # Extra flags for debug C++ builds
