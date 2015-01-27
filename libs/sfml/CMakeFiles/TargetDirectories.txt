@@ -1,5 +1,0 @@
-/Users/hydersm/workspace/OpenGLDemo/libs/sfml/SFML-2.2/src/SFML/Audio/CMakeFiles/sfml-audio.dir
-/Users/hydersm/workspace/OpenGLDemo/libs/sfml/SFML-2.2/src/SFML/Network/CMakeFiles/sfml-network.dir
-/Users/hydersm/workspace/OpenGLDemo/libs/sfml/SFML-2.2/src/SFML/Window/CMakeFiles/sfml-window.dir
-/Users/hydersm/workspace/OpenGLDemo/libs/sfml/SFML-2.2/src/SFML/System/CMakeFiles/sfml-system.dir
-/Users/hydersm/workspace/OpenGLDemo/libs/sfml/SFML-2.2/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir
