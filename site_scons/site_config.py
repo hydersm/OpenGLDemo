@@ -65,9 +65,9 @@ ENV_EXTENSIONS = {
         # Common flags for all C++ builds
         CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],#
         # Modules should be able to include relative to build root dir
-        CPPPATH = ['#$BUILDROOT', '#/libs/sfml/include'],
+        CPPPATH = ['#$BUILDROOT', '#/libs/include'],
         LIBS = ['sfml-window', 'sfml-system'],
-        LIBPATH = ['#/libs/sfml/lib'],
+        LIBPATH = ['#/libs/lib'],
     ),
     'debug': dict(
         # Extra flags for debug C++ builds
