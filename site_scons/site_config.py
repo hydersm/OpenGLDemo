@@ -66,7 +66,7 @@ ENV_EXTENSIONS = {
         CCFLAGS = ['-std=c++11', '-Wall', '-fvectorize', '-fslp-vectorize'],#
         # Modules should be able to include relative to build root dir
         CPPPATH = ['#$BUILDROOT', '#/libs/include'],
-        LIBS = ['sfml-window', 'sfml-system'],
+        LIBS = ['sfml-window', 'sfml-system', 'GLEW'],
         LIBPATH = ['#/libs/lib'],
     ),
     'debug': dict(
