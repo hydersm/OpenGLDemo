@@ -34,16 +34,28 @@ int main()
 
 	//define the vertices
 	float vertices[] = {
-		 0.0f,  0.5f, 1.0f, 0.0f, 0.0f, //vertex 1 red
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, //vertex 2 green
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, //vertex 3 blue
+	    -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // Top-left
+	     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Top-right
+	     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Bottom-right
+	    -0.5f, -0.5f, 1.0f, 1.0f, 1.0f  // Bottom-left
 	};
-
 	//vertex buffer object
 	GLuint vbo;
 	glGenBuffers(1, &vbo); //generate the vbo
 	glBindBuffer(GL_ARRAY_BUFFER, vbo); //make the vbo the active array buffer
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	//create and use a element buffer
+	GLuint ebo;
+	glGenBuffers(1, &ebo);
+
+	GLuint elements[] = {
+	    0, 1, 2,
+	    2, 3, 0
+	};
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
 	//load the shader programs
 	GLuint program = LoadShader("src//Game//shader.vert", "src//Game//shader.frag");
@@ -71,7 +83,7 @@ int main()
         }
 
 		// Clear the back buffer to black
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         float seconds = (clock() - start)/CLOCKS_PER_SEC;
@@ -82,7 +94,10 @@ int main()
         //glUniform3f(uniColor, redComponent, 0.0f, 0.0f);
 
         // Draw a triangle from the 3 vertices to the back buffer
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        // Draw the elements
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         SDL_GL_SwapWindow(window);
 	}
