@@ -34,11 +34,13 @@ int main()
 
 	//define the vertices
 	float vertices[] = {
-	    -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // Top-left
-	     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // Top-right
-	     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // Bottom-right
-	    -0.5f, -0.5f, 1.0f, 1.0f, 1.0f  // Bottom-left
+	//  Position      Color             Texcoords
+	    -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Top-left
+	     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top-right
+	     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Bottom-right
+	    -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // Bottom-left
 	};
+
 	//vertex buffer object
 	GLuint vbo;
 	glGenBuffers(1, &vbo); //generate the vbo
@@ -63,13 +65,34 @@ int main()
 
 	//set up link between the vertex data and shader variables
 	GLint posAttrib = glGetAttribLocation(program, "position"); //get the position variable from the vertex shader
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);  //make the link
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 7*sizeof(float), 0);  //make the link
 	glEnableVertexAttribArray(posAttrib); //enable it
 
-	//not for color
+	//now for color
 	GLint colAttrib = glGetAttribLocation(program, "color");
-	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void *)(2*sizeof(float)));
+	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void *)(2*sizeof(float)));
 	glEnableVertexAttribArray(colAttrib);
+
+	//for the tex coords
+	GLint texAttrib = glGetAttribLocation(program, "texcoord");
+	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void *)(5*sizeof(float)));
+	glEnableVertexAttribArray(texAttrib);
+
+	//create texture object and bind to GL_TEXTURE_2d
+	GLuint tex;
+	glGenTextures(1, &tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+
+	//set some properties
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    //load the picture into the texture
+    SDL_Surface *surface = SDL_LoadBMP("img.bmp");
+    if(!surface){
+    	cout<< "image did not load!"
+    }
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
 
 	//get the uniform variable
 	GLint uniColor = glGetUniformLocation(program, "triangleColor");
@@ -102,6 +125,7 @@ int main()
         SDL_GL_SwapWindow(window);
 	}
 
+	glDeleteTextures(1, &tex);
 	glDeleteProgram(program);
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
