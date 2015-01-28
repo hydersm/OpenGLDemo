@@ -12,10 +12,7 @@ else:
 	filePath = 'build/' + flavor + '/bin/' + fileName
 	absFilePath = os.path.abspath(filePath)
 
-	p = subprocess.Popen(['install_name_tool', '-change', '@rpath/libsfml-window.2.2.0.dylib', '@executable_path/../../../libs/lib/libsfml-window.2.2.0.dylib', filePath])
-	p.wait()
-
-	p = subprocess.Popen(['install_name_tool', '-change', '@rpath/libsfml-system.2.2.0.dylib', '@executable_path/../../../libs/lib/libsfml-system.2.2.0.dylib', filePath])
+	p = subprocess.Popen(['install_name_tool', '-change', '/usr/local/lib/libSDL2-2.0.0.dylib', '@executable_path/../../../libs/lib/libSDL2-2.0.0.dylib', filePath])
 	p.wait()
 
 	p = subprocess.Popen(['install_name_tool', '-change', '/usr/lib/libGLEW.1.11.0.dylib', '@executable_path/../../../libs/lib/libGLEW.1.11.0.dylib', filePath])

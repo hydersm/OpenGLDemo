@@ -3,4 +3,4 @@
 """AddressBook Writer SConscript script"""
 
 Lib('GLShader', 'GLShader.cpp')
-Prog('game', 'game.cpp', with_libs=['src.Game::GLShader'], LIBS=['sfml-window', 'sfml-system', 'GLEW'], LIBPATH=['#/libs/lib'])
+Prog('game', 'game.cpp', with_libs=['src.Game::GLShader'], LIBS=['GLEW', 'SDL2', 'SDL2main'], LIBPATH=['#/libs/lib'])
