@@ -56,6 +56,7 @@ int main()
 
 	//get the uniform variable
 	GLint uniColor = glGetUniformLocation(program, "triangleColor");
+	float start = clock();
 
 	//event loop
 	SDL_Event windowEvent;
@@ -68,8 +69,9 @@ int main()
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float seconds = clock()/CLOCKS_PER_SEC;
-        float redComponent = sin(seconds)/2 + 0.5;
+        float seconds = (clock() - start)/CLOCKS_PER_SEC;
+        float redComponent = sin(seconds*64)/2 + 0.5;
+        //cout<< seconds << "\n";
 
         //set the uniform variable
         glUniform3f(uniColor, redComponent, 0.0f, 0.0f);
