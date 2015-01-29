@@ -159,6 +159,9 @@ int main()
 	glm::mat4 proj = glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
+	//enable the depth buffer
+	glEnable(GL_DEPTH_TEST);
+
 	//event loop
 	SDL_Event windowEvent;
 	while(true){
@@ -168,7 +171,7 @@ int main()
 
 		// Clear the back buffer to black
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float seconds = ((float)clock() - start)/CLOCKS_PER_SEC;
 
