@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B20D477B-D8DB-4657-854C-1064BAA911D0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>OpenGLDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AE6CCD9CFF48F83012FBB1A796068244BA441DB4</key>
+		<string>https://github.com/hydersm/OpenGLDemo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>OpenGLDemo/OpenGLDemo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AE6CCD9CFF48F83012FBB1A796068244BA441DB4</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/hydersm/OpenGLDemo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AE6CCD9CFF48F83012FBB1A796068244BA441DB4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AE6CCD9CFF48F83012FBB1A796068244BA441DB4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>OpenGLDemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
