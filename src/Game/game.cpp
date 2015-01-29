@@ -6,6 +6,9 @@
 #include <iostream>
 #include <time.h>
 #include <math.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -33,12 +36,49 @@ int main()
 	glBindVertexArray(vao);
 
 	//define the vertices
-	float vertices[] = {
-	//  Position      Color             Texcoords
-	    -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Top-left
-	     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top-right
-	     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Bottom-right
-	    -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // Bottom-left
+	GLfloat vertices[] = {
+	//   X		Y 	   Z     R     G     B     U     V		
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	    -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+	    -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	    -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	    -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+	    -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	    -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	    -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	    -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	    -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	    -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+
+	    -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+	     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+	    -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+	    -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f
 	};
 
 	//vertex buffer object
@@ -65,38 +105,59 @@ int main()
 
 	//set up link between the vertex data and shader variables
 	GLint posAttrib = glGetAttribLocation(program, "position"); //get the position variable from the vertex shader
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 7*sizeof(float), 0);  //make the link
+	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), 0);  //make the link
 	glEnableVertexAttribArray(posAttrib); //enable it
 
 	//now for color
 	GLint colAttrib = glGetAttribLocation(program, "color");
-	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void *)(2*sizeof(float)));
+	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void *)(3*sizeof(float)));
 	glEnableVertexAttribArray(colAttrib);
 
 	//for the tex coords
 	GLint texAttrib = glGetAttribLocation(program, "texcoord");
-	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void *)(5*sizeof(float)));
+	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void *)(6*sizeof(float)));
 	glEnableVertexAttribArray(texAttrib);
 
-	//create texture object and bind to GL_TEXTURE_2d
-	GLuint tex;
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
+	//create texture object and bind to GL_TEXTURE_2D
+	GLuint tex[2];
+	glGenTextures(2, tex);
 
-	//set some properties
+	//activate texture 0, bind to that texture, load the image to that texture, set the uniform texKitten to that texture and set some proterties for texture 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex[0]);
+	SDL_Surface *surface1 = SDL_LoadBMP("src//Game//img.bmp");
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface1->w, surface1->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface1->pixels);
+	GLint texKittenUniform = glGetUniformLocation(program, "texKitten");
+	glUniform1i(texKittenUniform, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    //load the picture into the texture
-    SDL_Surface *surface = SDL_LoadBMP("img.bmp");
-    if(!surface){
-    	cout<< "image did not load!"
-    }
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
-
+    //activate texture 1, bind to that texture, load the image to that texture, set the uniform texPuppy to that texture and set some proterties for texture 1
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, tex[1]);
+	SDL_Surface *surface2 = SDL_LoadBMP("src//Game//img2.bmp");
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface2->w, surface2->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface2->pixels);
+	GLint texPupptUniform = glGetUniformLocation(program, "texPuppy");
+	glUniform1i(texPupptUniform, 1);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
 	//get the uniform variable
-	GLint uniColor = glGetUniformLocation(program, "triangleColor");
+	GLint uniModel = glGetUniformLocation(program, "model");
+	GLint uniView = glGetUniformLocation(program, "view");
+	GLint uniProj = glGetUniformLocation(program, "proj");
 	float start = clock();
+
+	//set the view and projection matrices
+	glm::mat4 view = glm::lookAt(
+	    glm::vec3(1.2f, 1.2f, 1.2f),
+	    glm::vec3(0.0f, 0.0f, 0.0f),
+	    glm::vec3(0.0f, 0.0f, 1.0f)
+	);
+	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+
+	glm::mat4 proj = glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
+	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
 	//event loop
 	SDL_Event windowEvent;
@@ -109,23 +170,19 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float seconds = (clock() - start)/CLOCKS_PER_SEC;
-        float redComponent = sin(seconds*64)/2 + 0.5;
-        //cout<< seconds << "\n";
+        float seconds = ((float)clock() - start)/CLOCKS_PER_SEC;
 
-        //set the uniform variable
-        //glUniform3f(uniColor, redComponent, 0.0f, 0.0f);
-
-        // Draw a triangle from the 3 vertices to the back buffer
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
+        glm::mat4 trans;
+        trans = glm::rotate(trans, seconds * 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(trans));
 
         // Draw the elements
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         SDL_GL_SwapWindow(window);
 	}
 
-	glDeleteTextures(1, &tex);
+	glDeleteTextures(1, tex);
 	glDeleteProgram(program);
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
