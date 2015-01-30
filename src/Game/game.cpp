@@ -15,15 +15,17 @@ using namespace std;
 int main()
 {
     //tell sdl to load the video module
+
     SDL_Init(SDL_INIT_VIDEO);
 
     //tell sdl which gl profile touse
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE); //use openg gl core profile
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); //use version 3.2
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
     //create window and context
-    SDL_Window* window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL); //last param: window for opengl
+    SDL_Window* window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL); //last param: window for opengl
     SDL_GLContext context = SDL_GL_CreateContext(window);
 
     //glew helps set up your gl functions from the gpu drivers
@@ -154,11 +156,12 @@ int main()
 	GLint uniModel = glGetUniformLocation(program, "model");
 	GLint uniView = glGetUniformLocation(program, "view");
 	GLint uniProj = glGetUniformLocation(program, "proj");
+	GLint uniOverCol = glGetUniformLocation(program, "overrideColor");
 	float start = clock();
 
 	//set the view and projection matrices
 	glm::mat4 view = glm::lookAt(
-	    glm::vec3(1.2f, 1.2f, 1.2f),
+	    glm::vec3(2.0f, 2.0f, 1.2f),
 	    glm::vec3(0.0f, 0.0f, 0.0f),
 	    glm::vec3(0.0f, 0.0f, 1.0f)
 	);
@@ -167,9 +170,8 @@ int main()
 	glm::mat4 proj = glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
-	//enable the depth buffer
 	glEnable(GL_DEPTH_TEST);
-    
+
 	//event loop
 	SDL_Event windowEvent;
 	while(true){
@@ -179,17 +181,43 @@ int main()
 
 		// Clear the back buffer to black
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         float seconds = ((float)clock() - start)/CLOCKS_PER_SEC;
 
-        glm::mat4 trans;
-        trans = glm::rotate(trans, seconds * 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-        glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(trans));
+        glm::mat4 model;
+        model = glm::rotate(model, seconds * 90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
 
-        // Draw the elements
+        glDepthMask(GL_TRUE);
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+        //draw the cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
-        glDrawArrays(GL_TRIANGLES, 36, 6);
+
+		// Draw floor
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // Set any stencil to 1
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		glStencilMask(0xFF); // Write to stencil buffer
+		glDepthMask(GL_FALSE); // Don't write to depth buffer
+		glClear(GL_STENCIL_BUFFER_BIT); // Clear stencil buffer (0 by default)
+
+		glDrawArrays(GL_TRIANGLES, 36, 6);
+
+		// Draw cube reflection
+		glStencilFunc(GL_EQUAL, 1, 0xFF); // Pass test if stencil value is 1
+		glStencilMask(0x00); // Don't write anything to stencil buffer
+		glDepthMask(GL_TRUE); // Write to depth buffer
+
+		model = glm::scale(glm::translate(model, glm::vec3(0, 0, -1)), glm::vec3(1, 1, -1));
+		glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
+
+		glUniform3f(uniOverCol, 0.3f, 0.3f, 0.3f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glUniform3f(uniOverCol, 1.0f, 1.0f, 1.0f);
+
+		glDisable(GL_STENCIL_TEST);
 
         SDL_GL_SwapWindow(window);
 	}
